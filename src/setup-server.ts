@@ -16,7 +16,8 @@ import cors from "cors";
 import compression from "compression";
 import helmet from "helmet";
 import hpp from "hpp";
-import cookierSession from "cookie-session";
+import cookieSession from "cookie-session";
+import { config } from "./config";
 
 const PORT = 8000;
 
@@ -38,11 +39,11 @@ export class AppServer {
   //   Middlewares
   private securityMiddleware(app: Application): void {
     app.use(
-      cookierSession({
+      cookieSession({
         name: "session",
-        keys: ["test1", "test2"],
+        keys: [config.SECRET_KEY_ONE!, config.SECRET_KEY_TWO!],
         maxAge: 24 * 7 * 3600000,
-        secure: false,
+        secure: config.NODE_ENV !== "development",
       })
     );
 
@@ -52,7 +53,7 @@ export class AppServer {
 
     app.use(
       cors({
-        origin: "*",
+        origin: config.CLIENT_URL,
         credentials: true,
         optionsSuccessStatus: 200,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
