@@ -1,6 +1,6 @@
 import express, { Express } from "express";
-import { AppServer } from "./setup-server";
-import { config } from "./config";
+import { AppServer } from "@root/setup-server";
+import { config } from "@root/config";
 
 class Application {
   public initializeApp(): void {

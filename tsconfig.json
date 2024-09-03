@@ -18,6 +18,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "plugins": [
+      { "transform": "typescript-transform-paths" },
+      { "transform": "typescript-transform-paths", "afterDeclarations": true }
+    ],
+    "paths": {
+      "@globals/*": ["src/common/globals/*"],
+      "@services/*": ["src/common/services/*"],
+      "@sockets/*": ["src/common/sockets/*"],
+      "@workers/*": ["src/common/workers/*"],
+      "@root/*": ["src/*"]
+    }
   }
 }

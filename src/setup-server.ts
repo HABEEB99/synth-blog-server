@@ -21,13 +21,10 @@ import { config } from "./config";
 // import { Server } from "socket.io";
 // import { createClient } from "redis";
 // import { createAdapter } from "@socket.io/redis-adapter";
-import appRoutes from "./routes";
-import Logger from "bunyan";
 
-import {
-  CustomError,
-  IErrorResponse,
-} from "./common/globals/helpers/error-handler";
+import Logger from "bunyan";
+import { CustomError, IErrorResponse } from "@globals/helpers/error-handler";
+import appRoutes from "@root/routes";
 
 const PORT = 8000;
 
@@ -56,7 +53,7 @@ export class AppServer {
         keys: [config.SECRET_KEY_ONE!, config.SECRET_KEY_TWO!],
         maxAge: 24 * 7 * 3600000,
         secure: config.NODE_ENV !== "development",
-      })
+      }),
     );
 
     app.use(hpp());
@@ -69,7 +66,7 @@ export class AppServer {
         credentials: true,
         optionsSuccessStatus: 200,
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      })
+      }),
     );
   }
 
@@ -95,14 +92,14 @@ export class AppServer {
         error: IErrorResponse,
         _req: Request,
         res: Response,
-        next: NextFunction
+        next: NextFunction,
       ) => {
         console.log(error);
         if (error instanceof CustomError) {
           return res.status(error.statusCode).json(error.serializeErrors);
         }
         next();
-      }
+      },
     );
   }
 
